@@ -48,7 +48,19 @@ namespace AmaZen.Controllers
       }
     }
 
-    // TODO [HttpGet("{id}/products")]
+    [HttpGet("{id}/products")]
+    public ActionResult<List<Warehouse>> GetProducts(int id)
+    {
+      try
+      {
+        List<ProductWarehouseViewModel> products = _wps.GetByWarehouseId(id);
+        return Ok(products);
+      }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
 
     [HttpPost]
     [Authorize]

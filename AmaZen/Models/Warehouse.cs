@@ -6,4 +6,10 @@ namespace AmaZen.Models
     public string Location { get; set; }
     public string Name { get; set; }
   }
+
+  public class WarehouseProductViewModel : Warehouse
+  {
+    public int Quantity { get; set; }
+    public int WarehouseProductId { get; set; }
+  }
 }

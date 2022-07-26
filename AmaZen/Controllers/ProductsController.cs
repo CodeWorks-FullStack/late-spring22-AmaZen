@@ -12,10 +12,12 @@ namespace AmaZen.Controllers
   public class ProductsController : ControllerBase
   {
     private readonly ProductsService _ps;
+    private readonly WarehouseProductsService _wps;
 
-    public ProductsController(ProductsService ps)
+    public ProductsController(ProductsService ps, WarehouseProductsService wps)
     {
       _ps = ps;
+      _wps = wps;
     }
 
     [HttpGet]
@@ -39,6 +41,20 @@ namespace AmaZen.Controllers
       {
         Product product = _ps.Get(id);
         return Ok(product);
+      }
+      catch (Exception err)
+      {
+        return BadRequest(err.Message);
+      }
+    }
+
+    [HttpGet("{id}/warehouses")]
+    public ActionResult<List<WarehouseProductViewModel>> GetWarehouses(int id)
+    {
+      try
+      {
+        List<WarehouseProductViewModel> warehouses = _wps.GetByProductId(id);
+        return Ok(warehouses);
       }
       catch (Exception err)
       {

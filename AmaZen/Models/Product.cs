@@ -8,4 +8,10 @@ namespace AmaZen.Models
     public string Category { get; set; }
   }
 
+  public class ProductWarehouseViewModel : Product
+  {
+    public int Quantity { get; set; }
+    public int WarehouseProductId { get; set; }
+  }
+
 }

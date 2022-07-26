@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using AmaZen.Models;
 using Dapper;
 
@@ -37,13 +39,40 @@ namespace AmaZen.Repositories
       return _db.QueryFirstOrDefault<WarehouseProduct>(sql, new { id });
     }
 
+    internal List<WarehouseProductViewModel> GetByProductId(int id)
+    {
+      string sql = @"
+      SELECT
+        w.*,
+        wp.quantity,
+        wp.id AS WarehouseProductId
+      FROM warehouseproducts wp
+      JOIN warehouses w ON w.id = wp.warehouseId
+      WHERE wp.productId = @id
+      ";
+      return _db.Query<WarehouseProductViewModel>(sql, new { id }).ToList();
+    }
+
+    internal List<ProductWarehouseViewModel> GetByWarehouseId(int id)
+    {
+      string sql = @"
+      SELECT
+        p.*,
+        wp.quantity,
+        wp.id AS WarehouseProductId
+      FROM warehouseproducts wp
+      JOIN products p ON p.id = wp.productId
+      WHERE wp.warehouseId = @id
+      ";
+      return _db.Query<ProductWarehouseViewModel>(sql, new { id }).ToList();
+    }
+
     internal void Delete(int id)
     {
       string sql = "DELETE FROM warehouseproducts WHERE id = @id LIMIT 1";
       _db.Execute(sql, new { id });
     }
 
-    // TODO GetProducts(int warehouseId)
 
   }
 }

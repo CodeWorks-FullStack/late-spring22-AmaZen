@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AmaZen.Models;
 using AmaZen.Repositories;
 
@@ -42,6 +43,14 @@ namespace AmaZen.Services
       _repo.Delete(id);
     }
 
-    // TODO GetProducts(int warehouseId)
+    internal List<ProductWarehouseViewModel> GetByWarehouseId(int id)
+    {
+      return _repo.GetByWarehouseId(id);
+    }
+
+    internal List<WarehouseProductViewModel> GetByProductId(int id)
+    {
+      return _repo.GetByProductId(id);
+    }
   }
 }
